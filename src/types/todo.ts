@@ -1,5 +1,3 @@
-
-
 export enum TodoPriority {
   low = "Low",
   medium = "Medium",
@@ -9,7 +7,6 @@ export const PriorityOptions: {
   key: string;
   value: string;
 }[] = Object.entries(TodoPriority).map(([key, value]) => ({ key, value }));
-
 
 export interface TodoItem {
   id: string;
