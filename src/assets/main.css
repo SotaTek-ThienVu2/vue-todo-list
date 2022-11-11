@@ -1,0 +1,11 @@
+@import './base.css';
+
+a {
+  text-decoration: none;
+  transition: 0.4s;
+  color: inherit;
+}
+
+a:visited {
+  color: inherit;
+}
