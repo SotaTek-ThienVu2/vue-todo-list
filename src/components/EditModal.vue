@@ -13,8 +13,14 @@ const emit = defineEmits<{
     (e: 'change', action: boolean): void
 }>()
 </script>
-<style scoped>
+<style >
 .dialog-footer button:first-child {
     margin-right: 10px;
+}
+
+@media screen and (max-width: 400px) {
+    .el-dialog--center {
+        width: 100% !important;
+    }
 }
 </style>

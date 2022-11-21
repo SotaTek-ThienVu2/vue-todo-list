@@ -1,6 +1,6 @@
 <template>
     <el-card class="box-card">
-        <el-table ref="multipleTableRef" :data="data" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTableRef" :data="data" @selection-change="handleSelectionChange" >
             <el-table-column type="selection" width="55" />
             <el-table-column prop="title" label="Title" width="180" />
             <el-table-column label="Due Date" width="180">
@@ -12,8 +12,8 @@
                     </el-tag>
                 </template>
             </el-table-column>
-            <el-table-column prop="description" label="Description" />
-            <el-table-column fixed="right" label="Operations" width="120">
+            <el-table-column prop="description" label="Description" v-if="windowSize > 1024"/>
+            <el-table-column align="right" label="Operations" width="120" >
                 <template #default="scope">
                     <el-button link type="primary" size="small" @click="onClickEdit(scope.row)">Edit
                     </el-button>
@@ -36,7 +36,7 @@
   
 <script lang="ts" setup>
 import { useTodoStore } from '@/stores/useTodoList';
-import { computed, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import moment from 'moment'
 import type { ElTable } from 'element-plus';
 import {
@@ -87,6 +87,13 @@ const deleteListItem = () => {
     const listId = multipleSelection.value.map(x => x.id)
     store.deleteItem(listId);
 }
+const windowSize = ref(window.innerWidth)
+onMounted(() => {
+  window.addEventListener('resize', () => { windowSize.value = window.innerWidth })
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', () => { windowSize.value = window.innerWidth })
+})
 </script>
 <style>
 .delete-all {
@@ -104,5 +111,12 @@ const deleteListItem = () => {
 .v-enter-from,
 .v-leave-to {
     opacity: 0;
+}
+@media screen and (max-width: 400px){
+    .el-card{
+        height: max-content;
+    max-height: 396px;
+    overflow: auto;
+    }
 }
 </style>

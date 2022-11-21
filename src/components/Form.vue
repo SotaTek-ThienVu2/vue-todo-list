@@ -11,12 +11,10 @@
             </el-select>
         </el-form-item>
         <el-form-item label="Due Date" required>
-            <el-col :span="11">
-                <el-form-item prop="dueDate">
-                    <el-date-picker v-model="ruleForm.dueDate" type="date" label="Pick a date" placeholder="Pick a date"
-                        style="width: 100%" />
-                </el-form-item>
-            </el-col>
+            <el-form-item prop="dueDate">
+                <el-date-picker v-model="ruleForm.dueDate" type="date" label="Pick a date" placeholder="Pick a date"
+                    style="width: 100%" />
+            </el-form-item>
         </el-form-item>
         <el-form-item label="Description" prop="description">
             <el-input v-model="ruleForm.description" type="textarea" />
