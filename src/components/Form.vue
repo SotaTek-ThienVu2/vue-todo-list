@@ -6,7 +6,7 @@
         </el-form-item>
         <el-form-item label="Priority" prop="priority" required>
             <el-select v-model="ruleForm.priority">
-                <el-option v-for="pr in PriorityOptions" :key="pr.key" :label="pr.value" :value='pr.value'
+                <el-option v-for="pr in PriorityOptions" :key="pr.key" :label="pr.value" :value="pr.value"
                     placeholder="Priority" />
             </el-select>
         </el-form-item>
@@ -20,44 +20,44 @@
             <el-input v-model="ruleForm.description" type="textarea" />
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="submitForm(ruleFormRef)">{{ props.editMode === 'add' ? 'Create' : 'Save'
-            }}
+            <el-button type="primary" @click="submitForm(ruleFormRef)">{{ props.editMode === "add" ? "Create" : "Save" }}
             </el-button>
             <el-button @click="resetForm(ruleFormRef)" v-if="props.editMode === 'add'">Reset</el-button>
-            <el-button @click="emit('change1', false)" v-if="props.editMode === 'edit'">Close</el-button>
+            <el-button @click="closeModal(false)" v-if="props.editMode === 'edit'">Close</el-button>
         </el-form-item>
     </el-form>
 </template>
-  
+
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { PriorityOptions, type TodoItem } from '@/types/todo';
 import { useTodoStore } from '@/stores/useTodoList';
+import { useForm } from '@/stores/useForm';
 import { v4 as uuidv4 } from 'uuid';
 const props = defineProps({
     editMode: String,
     item: Object,
 })
-const store = useTodoStore();
+const todoStore = useTodoStore();
+const modalStore = useForm();
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
-    id: uuidv4(),
+    id: '',
     title: '',
     priority: undefined,
     dueDate: new Date,
     description: '',
 })
+
 if (!!props.item?.id) {
     ruleForm.id = props.item.id;
     ruleForm.title = props.item.title;
     ruleForm.priority = props.item.priority;
     ruleForm.dueDate = props.item.dueDate;
     ruleForm.description = props.item.description;
-
 }
-
 const rules = reactive<FormRules>({
     title: [
         { required: true, message: 'Please input title of your task', trigger: 'blur' },
@@ -85,9 +85,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         await formEl.validate((valid, fields) => {
             if (valid) {
                 const item: TodoItem = {
-                    ...ruleForm
+                    ...ruleForm,
+                    id: uuidv4()
                 }
-                store.addTodo(item)
+                todoStore.addTodo(item)
                 formEl.resetFields()
             } else {
                 console.log('error submit!', fields)
@@ -99,13 +100,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 const item: TodoItem = {
                     ...ruleForm
                 }
-                store.updateItem(item)
+                todoStore.updateItem(item)
                 formEl.resetFields()
             } else {
                 console.log('error submit!', fields)
             }
         })
-        emit('change1', false)
+        closeModal(false)
     }
 }
 
@@ -113,8 +114,11 @@ const resetForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.resetFields()
 }
-const emit = defineEmits<{
-    (e: 'change1', action: boolean): void
-}>()
+const closeModal = (o: boolean) => {
+    modalStore.changeOpen(o);
+}
+
+// function watch(arg0: () => any, arg1: (first: any, second: any) => void) {
+// throw new Error('Function not implemented.');
+// }
 </script>
-  
