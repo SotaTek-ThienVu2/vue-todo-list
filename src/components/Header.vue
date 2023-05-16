@@ -1,9 +1,10 @@
 <template>
-  <el-page-header :icon="null" ref="header">
-    <template #content>
-      <div class="flex items-center">
-        <el-avatar :size="32" class="mr-3" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-      </div>
-    </template>
-  </el-page-header>
+  <div class="header"></div>
 </template>
+<style scoped>
+.header {
+  width: 100%;
+  height: 60px;
+  background-color: var(--vt-c-white);
+}
+</style>

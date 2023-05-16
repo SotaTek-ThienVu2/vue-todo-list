@@ -16,18 +16,23 @@
   </div>
 </template>
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import Header from './components/Header.vue';
-import Aside from './components/Aside.vue';
-import { onUnmounted, ref, onMounted } from 'vue'
-
-const windowSize = ref(window.innerWidth)
+import { RouterView } from "vue-router";
+import Header from "./components/Header.vue";
+import Aside from "./components/Aside.vue";
+import { onUnmounted, ref, onMounted } from "vue";
+import { useLayout } from "./stores/useLayout";
+const layout = useLayout();
+const windowSize = ref(window.innerWidth);
 onMounted(() => {
-  window.addEventListener('resize', () => { windowSize.value = window.innerWidth })
-})
+  window.addEventListener("resize", () => {
+    windowSize.value = window.innerWidth;
+  });
+  layout.changeWindowSize(windowSize.value);
+});
 onUnmounted(() => {
-  window.removeEventListener('resize', () => { windowSize.value = window.innerWidth })
-})
-
+  window.removeEventListener("resize", () => {
+    windowSize.value = window.innerWidth;
+  });
+  layout.changeWindowSize(windowSize.value);
+});
 </script>
-
