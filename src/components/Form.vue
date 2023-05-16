@@ -1,7 +1,7 @@
 <template>
     <el-form ref="ruleFormRef" label-position="right" :model="ruleForm" :rules="rules" label-width="120px"
         class="demo-ruleForm" :size="formSize" status-icon>
-        <el-form-item label="Title" prop="title" required>
+        <el-form-item label="Title" prop="title" size="50px" required>
             <el-input v-model="ruleForm.title" placeholder="Insert your title" />
         </el-form-item>
         <el-form-item label="Priority" prop="priority" required>
@@ -112,13 +112,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const resetForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    formEl.resetFields()
+    formEl.resetFields();
 }
 const closeModal = (o: boolean) => {
     modalStore.changeOpen(o);
 }
 
-// function watch(arg0: () => any, arg1: (first: any, second: any) => void) {
-// throw new Error('Function not implemented.');
-// }
 </script>

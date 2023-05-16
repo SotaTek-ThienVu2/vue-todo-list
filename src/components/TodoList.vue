@@ -3,12 +3,12 @@
         <el-table ref="multipleTableRef" :data="data" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" />
             <el-table-column prop="title" label="Title" width="180" />
-            <el-table-column label="Due Date" width="180">
+            <el-table-column label="Due Date" width="180" v-if="windowSize > 600" >
                 <template #default="scope">{{
                     moment(scope.row.dueDate).format("MMM Do YY")
                 }}</template>
             </el-table-column>
-            <el-table-column prop="priority" label="Priority" width="90">
+            <el-table-column prop="priority" label="Priority" width="90" v-if="windowSize > 600">
                 <template #default="scope">
                     <el-tag class="ml-2" :type="mappingPriorityToColor(scope.row.priority)">{{ scope.row.priority }}
                     </el-tag>
@@ -79,7 +79,6 @@ function handleClick(id: string) {
     store.deleteItem(arrayId)
 }
 function showDetailModal(action: boolean) {
-    console.log("🚀 ~ file: TodoList.vue:111 ~ showDetailModal ~ action:", action)
     modalStore.changeOpen(action)
 }
 const currentItem = ref({})
